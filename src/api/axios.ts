@@ -2,8 +2,8 @@ import axios from 'axios'
 import type { AxiosInstance, AxiosResponse } from 'axios'
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import { Message } from '@arco-design/web-vue';
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { router } from '@/router/router'
+
 
 const service: AxiosInstance = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
@@ -17,6 +17,8 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     //  伪代码
     if (config.url !== '/login' && !localStorage.getItem('token')) {
         Message.error('账号已失效，请重新新登录！');
+        console.log(777)
+
         router.push({
             name: 'login'
         })
@@ -25,6 +27,7 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     }
     return config
 }, (error: AxiosError) => {
+    console.log(error)
     Message.error(error.message);
     return Promise.reject(error)
 })

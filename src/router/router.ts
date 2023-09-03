@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 let routes: Array<any> = [
-    { path: "/", component: () => import("../pages/Login.vue") },
-    { name:'login', path: "/login", component: () => import("../pages/Login.vue") },
-    { name:'BlogManage', path: "/BlogManage", component: () => import("../pages/BlogManage.vue") },
+    { name: '', path: "/", component: () => import("../pages/Login.vue") },
+    { name: 'login', path: "/login", component: () => import("../pages/Login.vue") },
+    { name: 'BlogManage', path: "/BlogManage", component: () => import("../pages/BlogManage.vue") },
 ]
 
 const router = createRouter({
@@ -11,4 +11,4 @@ const router = createRouter({
     routes,
 });
 
-export { router, routes };
+export { router };

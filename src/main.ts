@@ -4,8 +4,10 @@ import ArcoVue from '@arco-design/web-vue';
 import '@arco-design/web-vue/dist/arco.css';
 import { router } from './router/router'
 import "./styles/index.scss"
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 const app: any = createApp(App)
-app.use(ArcoVue)
-app.use(router)
+app.use(ArcoVue).use(router).use(mavonEditor)
+
 app.mount('#app')

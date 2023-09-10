@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosResponse } from 'axios'
-import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
+import type { AxiosError, InternalAxiosRequestConfig, AxiosRequestConfig } from 'axios'
 import { Message } from '@arco-design/web-vue';
 import { router } from '@/router/router'
 
@@ -35,17 +35,19 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 /* 响应拦截器 */
 service.interceptors.response.use((response: AxiosResponse) => {
     const { code, msg, data } = response.data
-    console.log(code)
+    console.log(999)
+
     // 根据自定义错误码判断请求是否成功
     if (code === 200) {
         // 将组件用的数据返回
         return data
     } else {
         // 处理业务错误。
-
+        console.log(888)
         return Promise.reject(msg)
     }
 }, (error: AxiosError) => {
+    console.log(error)
     // 处理 HTTP 网络错误
     let message = ''
     // HTTP 状态码
@@ -67,6 +69,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
         default:
             message = '网络连接故障'
     }
+    error.message = message
     return Promise.reject(error)
 })
 
@@ -77,8 +80,7 @@ export const http = {
         return service.get(url, config)
     },
 
-    post<T = any>(url: string, data?: any, config?: InternalAxiosRequestConfig): Promise<T> {
-
+    post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
         return service.post(url, data, config)
     },
 

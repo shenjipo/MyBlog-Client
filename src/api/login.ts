@@ -19,7 +19,8 @@ export class Api {
         return http.post<LoginData>('/login', params).then(res => {
             return res
         }).catch((err: any) => {
-            return err
+        
+            return Promise.reject(err)
         })
     }
 }

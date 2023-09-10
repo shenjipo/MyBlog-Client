@@ -36,18 +36,20 @@ const handleSubmit = () => {
 
     formRef.value.validate((err: any) => {
         if (!err) {
+
             const params = {
                 account: form.account,
                 password: form.password,
             }
             Api.login(params).then(res => {
+         
                 localStorage.setItem('token', res.token)
                 router.push({
-                    name: 'BlogManage',
+                    name: 'MainPage',
                 })
             }).catch(err => {
-          
-                Message.error(err || '失败')
+              
+                Message.error(err.message || '失败')
             })
         }
     })

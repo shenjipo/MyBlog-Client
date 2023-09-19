@@ -1,23 +1,59 @@
 import { http } from "./axios"
-
+import { Response } from './login'
 /* 登录接口参数类型 */
-interface Blog {
+export interface Blog {
     content: string,
     title: string,
+    author: string,
+    id: string,
+    updateTime: string,
+    createTime?: string
+}
+
+interface UploadImg {
+    url: string
 }
 
 
-
 export class ArticleManageApi {
-    static queryAll(params?: any): Promise<Array<Blog>> {
-        return http.post<Array<Blog>>('/queryAll').then(res => {
+    // 查询所有文章
+    static queryBlogList(): Promise<Array<Blog>> {
+        return http.post('/queryBlogList').then(res => {
             return res
         }).catch((err: any) => {
-            return err
+            return Promise.reject(err)
+        })
+    }
+    // 根据id查询文章
+    static queryBlogById(id: string): Promise<Blog> {
+        return http.post('/queryBlogById', { id }).then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
         })
     }
 
-    static uploadImg(file: { miniurl: string, name: string, lastModified: number, lastModifiedDate: any, size: number, type: string }) {
+    // 根据id删除文章
+    static deleteBlogById(id: string): Promise<any> {
+        return http.post('/deleteBlogById', { id }).then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
+        })
+    }
+
+
+    // 根据id更新文章
+    static updateBlogById(params: { id: string, title: string, content: string, updateTime?: string }): Promise<any> {
+        params.updateTime = new Date().getTime().toString()
+        return http.post('/updateBlogById', params).then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
+        })
+    }
+    // 上传图片接口
+    static uploadImg(file: { miniurl: string, name: string, lastModified: number, lastModifiedDate: any, size: number, type: string }): Promise<UploadImg> {
         var formData = new FormData();     //新建一个表单数据,用于提交文件
         formData.append("img", file as any);     //添加文件,参数分别是表单参数的名字和值.
         return http.post('/uploadImg', formData, {
@@ -27,7 +63,15 @@ export class ArticleManageApi {
         }).then(res => {
             return res
         }).catch((err: any) => {
-            return err
+            return Promise.reject(err)
+        })
+    }
+    // 新建博客
+    static saveBlog(params: { content: string, title: string, author: string, createTime: string }): Promise<{ id: string }> {
+        return http.post('/saveBlog', params).then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
         })
     }
 }

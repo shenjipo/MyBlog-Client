@@ -42,13 +42,11 @@ const handleSubmit = () => {
                 password: form.password,
             }
             Api.login(params).then(res => {
-         
+
                 localStorage.setItem('token', res.token)
-                router.push({
-                    name: 'MainPage',
-                })
+                router.push('/MainPage/BlogManage')
             }).catch(err => {
-              
+
                 Message.error(err.message || '失败')
             })
         }

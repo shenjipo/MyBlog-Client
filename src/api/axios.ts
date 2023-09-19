@@ -35,7 +35,7 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 /* 响应拦截器 */
 service.interceptors.response.use((response: AxiosResponse) => {
     const { code, msg, data } = response.data
-    console.log(999)
+  
 
     // 根据自定义错误码判断请求是否成功
     if (code === 200) {
@@ -54,17 +54,17 @@ service.interceptors.response.use((response: AxiosResponse) => {
     const status = error.response?.status
     switch (status) {
         case 401:
-            message = 'token 失效，请重新登录'
+            message = '401 token 失效，请重新登录'
             // 这里可以触发退出的 action
             break;
         case 403:
-            message = '拒绝访问'
+            message = '403 拒绝访问'
             break;
         case 404:
-            message = '请求地址错误'
+            message = '404 请求地址错误'
             break;
         case 500:
-            message = '服务器故障'
+            message = '500 服务器故障'
             break;
         default:
             message = '网络连接故障'

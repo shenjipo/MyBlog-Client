@@ -1,181 +1,81 @@
 <template>
     <div class="box-button">
-        <a-button @click="handleEditBlog()" type="primary" style="margin-right: 10px;">添加文章</a-button>
+        <a-button @click="handleCreateBlog()" type="primary" style="margin-right: 10px;">添加文章</a-button>
     </div>
     <div class="box-list">
-        <a-table :columns="columns" :data="data" :pagination="false" />
+        <a-table :data="tableData" :pagination="false">
+            <template #columns>
+                <a-table-column title="id" data-index="id"></a-table-column>
+                <a-table-column title="标题" data-index="title"></a-table-column>
+                <a-table-column title="创建时间">
+                    <template #cell="{ record }">
+                        <a-tag color="arcoblue">{{ Utils.formatDate(record.createTime) }}</a-tag>
+                    </template>
+                </a-table-column>
+                <a-table-column title="更新时间" data-index="title">
+                    <template #cell="{ record }">
+                        <a-tag color="arcoblue">{{ Utils.formatDate(record.updateTime) }}</a-tag>
+                    </template>
+                </a-table-column>
+                <a-table-column title="作者" data-index="author"></a-table-column>
+                <a-table-column title="操作">
+                    <template #cell="{ record }">
+                        <a-button @click="handleEditBlog(record)">查看详情</a-button>
+                        <a-button style="margin-left: 5px;" @click="handleEditBlog(record)" type="primary">编辑</a-button>
+                        <a-popconfirm content="确定要删除吗？" position="top" @ok="handleDeleteBlog(record)">
+                            <a-button style="margin-left: 5px;" status="danger">删除</a-button>
+                        </a-popconfirm>
+
+                    </template>
+                </a-table-column>
+            </template>
+
+        </a-table>
     </div>
     <div class="box-bottom">
-        <a-pagination :total="200" />
+        <a-pagination :total="tableData.length" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { ArticleManageApi } from '../api/ArticleManageApi'
 import { useRouter } from 'vue-router'
+import { Blog } from '../api/ArticleManageApi'
+import { Message } from '@arco-design/web-vue';
+import { Utils } from '../utils/Utils'
 const router = useRouter()
 
-const handleEditBlog = (id?: any) => {
-    console.log(id)
-    if (id) {
-
-    } else {
-        router.push('/MainPage/BlogEdit')
-    }
-}
-const handleBlogList = () => {
+onMounted(() => {
     getBlogList()
-}
+})
+
+const tableData = ref<Array<Blog>>([]);
+
 
 const getBlogList = () => {
-    ArticleManageApi.queryAll()
+    ArticleManageApi.queryBlogList().then(res => {
+        tableData.value = res
+        console.log(tableData.value)
+    }).catch(err => {
+        Message.error(err?.message || '查询失败！')
+    })
 }
-const columns = [
-    {
-        title: '标题',
-        dataIndex: 'name',
-    },
-    {
-        title: '创建时间',
-        dataIndex: 'salary',
-    },
-    {
-        title: '修改时间',
-        dataIndex: 'address',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-    },
-];
-const data = reactive([{
-    key: '1',
-    name: 'Jane Doe',
-    salary: 23000,
-    address: '32 Park Road, London',
-    email: 'jane.doe@example.com'
-}, {
-    key: '2',
-    name: 'Alisa Ross',
-    salary: 25000,
-    address: '35 Park Road, London',
-    email: 'alisa.ross@example.com'
-}, {
-    key: '3',
-    name: 'Kevin Sandra',
-    salary: 22000,
-    address: '31 Park Road, London',
-    email: 'kevin.sandra@example.com'
-}, {
-    key: '4',
-    name: 'Ed Hellen',
-    salary: 17000,
-    address: '42 Park Road, London',
-    email: 'ed.hellen@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}, {
-    key: '5',
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com'
-}]);
+const handleCreateBlog = (id?: any) => {
+    router.push('/MainPage/BlogEdit')
+}
+const handleEditBlog = (params: Blog) => {
+    router.push(`/MainPage/BlogUpdate/${params.id}`)
+}
+const handleDeleteBlog = (params: Blog) => {
+    ArticleManageApi.deleteBlogById(params.id).then(res => {
+        Message.success('删除成功!!!')
+        getBlogList()
+    }).catch(err => {
+        Message.error(err.message || '删除失败!!!')
+    })
+}
+
 </script>
 
 <style lang="scss">

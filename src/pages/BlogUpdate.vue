@@ -2,27 +2,28 @@
     <div class="box">
         <div class="box-tool">
             <div class="box-left">
-                <a-input class="box-title" placeholder="请输入标题" allow-clear style="width: 500px;" v-model="title" />
-                <a-tag color="blue" size="large" style="margin-left: 20px;">新建博客</a-tag>
+                <a-input class="box-title" placeholder="请输入标题" allow-clear style="width: 500px;" v-model="blog.title" />
+                <a-tag color="green" size="large" style="margin-left: 20px;">更新博客</a-tag>
             </div>
 
 
             <div class="box-right">
-                <a-button type="primary" style="margin-right: 20px;" @click="handleSave">保存</a-button>
+                <a-button type="primary" style="margin-right: 20px;" @click="handleSave">修改保存</a-button>
                 <a-popconfirm position="bottom" content="确定退出吗? 内容可能未保存！" @ok="handleReturn" popup-container="body">
                     <a-button>返回</a-button>
                 </a-popconfirm>
+
             </div>
         </div>
 
         <div>
-            <mavon-editor ref="mdRef" class="box-edit" v-model="content" @imgAdd="handleImgAdd" />
+            <mavon-editor ref="mdRef" class="box-edit" v-model="blog.content" @imgAdd="handleImgAdd" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ArticleManageApi } from '../api/ArticleManageApi'
+import { ArticleManageApi, Blog } from '../api/ArticleManageApi'
 import { ref, onMounted } from 'Vue'
 import { Message } from '@arco-design/web-vue';
 import { useRoute, useRouter } from "vue-router"
@@ -30,26 +31,36 @@ const route = useRoute(); // 第一步
 const router = useRouter()
 
 const mdRef: any = ref(null)
-const content = ref('')
+const blog = ref<Blog>({
+    content: '',
+    title: '',
+    author: '',
+    id: '',
+    updateTime: '',
+})
 const title = ref('')
 
 
 onMounted(() => {
-
+    console.log(route.params)
+    blog.value.id = route.params.id as string
+    ArticleManageApi.queryBlogById(blog.value.id).then(res => {
+        blog.value = res
+    }).catch(err => {
+        Message.error(err.message || '查询失败！')
+    })
 })
 const handleSave = () => {
-    console.log(content.value)
     const params = {
-        content: content.value,
-        title: title.value,
-        author: 'wangxing',
-        createTime: new Date().getTime().toString()
+        id: blog.value.id,
+        title: blog.value.title,
+        content: blog.value.content
     }
-    ArticleManageApi.saveBlog(params).then(res => {
-        Message.success('保存文章成功')
-        router.push(`/MainPage/BlogUpdate/${res.id}`)
+
+    ArticleManageApi.updateBlogById(params).then(res => {
+        Message.success('更新成功!')
     }).catch(err => {
-        Message.error(err?.message || '保存失败！')
+        Message.error(err?.message || '更新失败!')
     })
 }
 const handleImgAdd = (pos: any, file: any) => {

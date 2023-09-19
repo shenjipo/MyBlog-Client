@@ -6,6 +6,7 @@ import { router } from './router/router'
 import "./styles/index.scss"
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import './assets/index.scss'
 
 const app: any = createApp(App)
 app.use(ArcoVue).use(router).use(mavonEditor)

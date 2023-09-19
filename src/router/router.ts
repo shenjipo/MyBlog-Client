@@ -9,6 +9,7 @@ let routes: Array<any> = [
             { name: 'BlogManage', path: "/MainPage/BlogManage", component: () => import("../pages/BlogManage.vue") },
             { name: 'Settings', path: "/MainPage/Settings", component: () => import("../pages/Settings.vue") },
             { name: 'BlogEdit', path: "/MainPage/BlogEdit", component: () => import("../pages/BlogEdit.vue") },
+            { name: 'BlogUpdate', path: "/MainPage/BlogUpdate/:id", component: () => import("../pages/BlogUpdate.vue") },
         ]
     },
 

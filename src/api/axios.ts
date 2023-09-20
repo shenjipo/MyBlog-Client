@@ -14,15 +14,17 @@ const service: AxiosInstance = axios.create({
 //
 /* 请求拦截器 */
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    const noTokenUrl = ['/login', '/queryBlogListExceptContent', '/queryBlogByIdNoToken']
+
     //  伪代码
-    if (config.url !== '/login' && !localStorage.getItem('token')) {
+    if (!noTokenUrl.includes(config.url as string) && !localStorage.getItem('token')) {
         Message.error('账号已失效，请重新新登录！');
-        console.log(777)
+    
 
         router.push({
             name: 'login'
         })
-        console.log(666)
+      
         return Promise.reject('err')
     }
     return config
@@ -35,7 +37,7 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 /* 响应拦截器 */
 service.interceptors.response.use((response: AxiosResponse) => {
     const { code, msg, data } = response.data
-  
+
 
     // 根据自定义错误码判断请求是否成功
     if (code === 200) {
@@ -43,7 +45,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
         return data
     } else {
         // 处理业务错误。
-        console.log(888)
+    
         return Promise.reject(msg)
     }
 }, (error: AxiosError) => {

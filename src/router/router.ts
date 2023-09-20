@@ -12,6 +12,12 @@ let routes: Array<any> = [
             { name: 'BlogUpdate', path: "/MainPage/BlogUpdate/:id", component: () => import("../pages/BlogUpdate.vue") },
         ]
     },
+    {
+        name: 'Preview', path: "/Preview", component: () => import("../pages/Preview.vue"),
+        children: [
+            { name: 'PreviewBlog', path: '/Preview/PreviewBlog/:id', component: () => import("../pages/PreviewBlog.vue"), }
+        ]
+    }
 
 ]
 

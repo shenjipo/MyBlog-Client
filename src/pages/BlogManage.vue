@@ -20,7 +20,7 @@
                 <a-table-column title="作者" data-index="author"></a-table-column>
                 <a-table-column title="操作">
                     <template #cell="{ record }">
-                        <a-button @click="handleEditBlog(record)">查看详情</a-button>
+                        <a-button @click="handlePreviewBlog(record)">查看详情</a-button>
                         <a-button style="margin-left: 5px;" @click="handleEditBlog(record)" type="primary">编辑</a-button>
                         <a-popconfirm content="确定要删除吗？" position="top" @ok="handleDeleteBlog(record)">
                             <a-button style="margin-left: 5px;" status="danger">删除</a-button>
@@ -56,7 +56,7 @@ const tableData = ref<Array<Blog>>([]);
 const getBlogList = () => {
     ArticleManageApi.queryBlogList().then(res => {
         tableData.value = res
-        console.log(tableData.value)
+     
     }).catch(err => {
         Message.error(err?.message || '查询失败！')
     })
@@ -64,7 +64,11 @@ const getBlogList = () => {
 const handleCreateBlog = (id?: any) => {
     router.push('/MainPage/BlogEdit')
 }
+const handlePreviewBlog = (blog: Blog) => {
+    router.push(`/Preview/PreviewBlog/${blog.id}`)
+}
 const handleEditBlog = (params: Blog) => {
+
     router.push(`/MainPage/BlogUpdate/${params.id}`)
 }
 const handleDeleteBlog = (params: Blog) => {

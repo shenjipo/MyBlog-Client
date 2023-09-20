@@ -38,7 +38,7 @@ onMounted(() => {
 
 })
 const handleSave = () => {
-    console.log(content.value)
+   
     const params = {
         content: content.value,
         title: title.value,
@@ -54,9 +54,9 @@ const handleSave = () => {
 }
 const handleImgAdd = (pos: any, file: any) => {
     ArticleManageApi.uploadImg(file).then(res => {
-        console.log(mdRef)
+     
         mdRef.value.$img2Url(pos, `http://localhost:3000/api/getImage/${res.url}`)
-        console.log(res.url)
+       
     }).catch(err => {
 
         Message.error(err?.message || '上传图片失败！')

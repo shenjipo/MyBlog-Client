@@ -42,7 +42,7 @@ const title = ref('')
 
 
 onMounted(() => {
-    console.log(route.params)
+
     blog.value.id = route.params.id as string
     ArticleManageApi.queryBlogById(blog.value.id).then(res => {
         blog.value = res
@@ -65,9 +65,9 @@ const handleSave = () => {
 }
 const handleImgAdd = (pos: any, file: any) => {
     ArticleManageApi.uploadImg(file).then(res => {
-        console.log(mdRef)
+
         mdRef.value.$img2Url(pos, `http://localhost:3000/api/getImage/${res.url}`)
-        console.log(res.url)
+
     }).catch(err => {
 
         Message.error(err?.message || '上传图片失败！')

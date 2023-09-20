@@ -24,9 +24,28 @@ export class ArticleManageApi {
             return Promise.reject(err)
         })
     }
-    // 根据id查询文章
+
+    // 查询所有文章
+    static queryBlogListExceptContent(): Promise<Array<{ id: string, title: string, createTime: string }>> {
+        return http.post('/queryBlogListExceptContent').then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
+        })
+    }
+
+    // 根据id查询文章  需要token
     static queryBlogById(id: string): Promise<Blog> {
         return http.post('/queryBlogById', { id }).then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
+        })
+    }
+
+    // 根据id查询文章 不需要token
+    static queryBlogByIdNoToken(id: string): Promise<Blog> {
+        return http.post('/queryBlogByIdNoToken', { id }).then(res => {
             return res
         }).catch((err: any) => {
             return Promise.reject(err)

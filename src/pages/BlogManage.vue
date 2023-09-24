@@ -18,14 +18,23 @@
                     </template>
                 </a-table-column>
                 <a-table-column title="作者" data-index="author"></a-table-column>
+
                 <a-table-column title="操作">
                     <template #cell="{ record }">
-                        <a-button @click="handlePreviewBlog(record)">查看详情</a-button>
+                        <a-button @click="handlePreviewBlog(record)" v-if="record.isPreviewShow === '1'">查看详情</a-button>
                         <a-button style="margin-left: 5px;" @click="handleEditBlog(record)" type="primary">编辑</a-button>
                         <a-popconfirm content="确定要删除吗？" position="top" @ok="handleDeleteBlog(record)">
                             <a-button style="margin-left: 5px;" status="danger">删除</a-button>
                         </a-popconfirm>
-
+                        <a-switch style="margin-left: 5px;" v-model="record.isPreviewShow" checked-value="1"
+                            unchecked-value="2" @change="handleShowChange(record)">
+                            <template #checked>
+                                对外显示
+                            </template>
+                            <template #unchecked>
+                                对外关闭
+                            </template>
+                        </a-switch>
                     </template>
                 </a-table-column>
             </template>
@@ -56,8 +65,9 @@ const tableData = ref<Array<Blog>>([]);
 const getBlogList = () => {
     ArticleManageApi.queryBlogList().then(res => {
         tableData.value = res
-     
+
     }).catch(err => {
+        console.log(err)
         Message.error(err?.message || '查询失败！')
     })
 }
@@ -79,7 +89,17 @@ const handleDeleteBlog = (params: Blog) => {
         Message.error(err.message || '删除失败!!!')
     })
 }
-
+// 设置博客是否对外显示
+const handleShowChange = (params: Blog) => {
+    ArticleManageApi.updateBlogShowById({
+        id: params.id,
+        isPreviewShow: params.isPreviewShow
+    }).then(res => {
+        Message.success('更新成功!')
+    }).catch(err => {
+        Message.error(err.message || '更新失败!')
+    })
+}
 </script>
 
 <style lang="scss">

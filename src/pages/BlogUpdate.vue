@@ -3,6 +3,14 @@
         <div class="box-tool">
             <div class="box-left">
                 <a-input class="box-title" placeholder="请输入标题" allow-clear style="width: 500px;" v-model="blog.title" />
+                <a-switch style="margin-left: 20px;" v-model="blog.isPreviewShow" checked-value="1" unchecked-value="2">
+                    <template #checked>
+                        对外显示
+                    </template>
+                    <template #unchecked>
+                        对外关闭
+                    </template>
+                </a-switch>
                 <a-tag color="green" size="large" style="margin-left: 20px;">更新博客</a-tag>
             </div>
 
@@ -37,6 +45,7 @@ const blog = ref<Blog>({
     author: '',
     id: '',
     updateTime: '',
+    isPreviewShow: '1',
 })
 const title = ref('')
 
@@ -51,10 +60,19 @@ onMounted(() => {
     })
 })
 const handleSave = () => {
+    if (!blog.value.title) {
+        Message.error('标题不能为空!')
+        return
+    }
+    if (!blog.value.content) {
+        Message.error('内容不能为空!')
+        return
+    }
     const params = {
         id: blog.value.id,
         title: blog.value.title,
-        content: blog.value.content
+        content: blog.value.content,
+        isPreviewShow: blog.value.isPreviewShow
     }
 
     ArticleManageApi.updateBlogById(params).then(res => {

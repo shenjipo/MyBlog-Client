@@ -4,7 +4,6 @@ import type { AxiosError, InternalAxiosRequestConfig, AxiosRequestConfig } from 
 import { Message } from '@arco-design/web-vue';
 import { router } from '@/router/router'
 
-
 const service: AxiosInstance = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
     timeout: 30000
@@ -19,14 +18,17 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     //  伪代码
     if (!noTokenUrl.includes(config.url as string) && !localStorage.getItem('token')) {
         Message.error('账号已失效，请重新新登录！');
-    
+
 
         router.push({
             name: 'login'
         })
-      
+
         return Promise.reject('err')
     }
+
+    config.headers.setAuthorization(localStorage.getItem('token') || '')
+
     return config
 }, (error: AxiosError) => {
     console.log(error)
@@ -44,9 +46,12 @@ service.interceptors.response.use((response: AxiosResponse) => {
         // 将组件用的数据返回
         return data
     } else {
+
         // 处理业务错误。
-    
-        return Promise.reject(msg)
+        if (code === 403) {
+            router.push('/login')
+        }
+        return Promise.reject({ message: msg })
     }
 }, (error: AxiosError) => {
     console.log(error)

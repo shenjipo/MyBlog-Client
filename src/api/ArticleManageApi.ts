@@ -7,7 +7,8 @@ export interface Blog {
     author: string,
     id: string,
     updateTime: string,
-    createTime?: string
+    createTime?: string,
+    isPreviewShow: string
 }
 
 interface UploadImg {
@@ -25,7 +26,7 @@ export class ArticleManageApi {
         })
     }
 
-    // 查询所有文章
+    // 查询所有文章，不包含内容
     static queryBlogListExceptContent(): Promise<Array<{ id: string, title: string, createTime: string }>> {
         return http.post('/queryBlogListExceptContent').then(res => {
             return res
@@ -63,7 +64,7 @@ export class ArticleManageApi {
 
 
     // 根据id更新文章
-    static updateBlogById(params: { id: string, title: string, content: string, updateTime?: string }): Promise<any> {
+    static updateBlogById(params: { id: string, title: string, content: string, updateTime?: string, isPreviewShow: string }): Promise<any> {
         params.updateTime = new Date().getTime().toString()
         return http.post('/updateBlogById', params).then(res => {
             return res
@@ -86,8 +87,18 @@ export class ArticleManageApi {
         })
     }
     // 新建博客
-    static saveBlog(params: { content: string, title: string, author: string, createTime: string }): Promise<{ id: string }> {
+    static saveBlog(params: { content: string, title: string, author: string, createTime: string, isPreviewShow: string }): Promise<{ id: string }> {
         return http.post('/saveBlog', params).then(res => {
+            return res
+        }).catch((err: any) => {
+            return Promise.reject(err)
+        })
+    }
+
+    //根据id更新博客是否对外显示
+    static updateBlogShowById(params: { isPreviewShow: string, id: string, updateTime?: string }): Promise<any> {
+        params.updateTime = new Date().getTime().toString()
+        return http.post('/updateBlogShowById', params).then(res => {
             return res
         }).catch((err: any) => {
             return Promise.reject(err)

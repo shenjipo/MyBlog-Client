@@ -28,8 +28,8 @@ const router = useRouter()
 
 const formRef: any = ref(null)
 const form: any = reactive({
-    account: 'admin',
-    password: '123456',
+    account: '',
+    password: '',
 });
 
 const handleSubmit = () => {

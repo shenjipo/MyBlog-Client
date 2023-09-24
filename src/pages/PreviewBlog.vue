@@ -21,6 +21,7 @@ const blog = ref<Blog>({
     author: '',
     id: '',
     updateTime: '',
+    isPreviewShow: '1'
 })
 
 onMounted(() => {

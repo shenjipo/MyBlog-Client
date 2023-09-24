@@ -3,6 +3,14 @@
         <div class="box-tool">
             <div class="box-left">
                 <a-input class="box-title" placeholder="请输入标题" allow-clear style="width: 500px;" v-model="title" />
+                <a-switch style="margin-left: 20px;" v-model="isPreviewShow" checked-value="1" unchecked-value="2">
+                    <template #checked>
+                        对外显示
+                    </template>
+                    <template #unchecked>
+                        对外关闭
+                    </template>
+                </a-switch>
                 <a-tag color="blue" size="large" style="margin-left: 20px;">新建博客</a-tag>
             </div>
 
@@ -32,18 +40,26 @@ const router = useRouter()
 const mdRef: any = ref(null)
 const content = ref('')
 const title = ref('')
-
+const isPreviewShow = ref('1')
 
 onMounted(() => {
 
 })
 const handleSave = () => {
-   
+    if (!title.value) {
+        Message.error('标题不能为空!')
+        return
+    }
+    if (!content.value) {
+        Message.error('内容不能为空!')
+        return
+    }
     const params = {
         content: content.value,
         title: title.value,
         author: 'wangxing',
-        createTime: new Date().getTime().toString()
+        createTime: new Date().getTime().toString(),
+        isPreviewShow: isPreviewShow.value
     }
     ArticleManageApi.saveBlog(params).then(res => {
         Message.success('保存文章成功')
@@ -54,9 +70,9 @@ const handleSave = () => {
 }
 const handleImgAdd = (pos: any, file: any) => {
     ArticleManageApi.uploadImg(file).then(res => {
-     
+
         mdRef.value.$img2Url(pos, `http://localhost:3000/api/getImage/${res.url}`)
-       
+
     }).catch(err => {
 
         Message.error(err?.message || '上传图片失败！')

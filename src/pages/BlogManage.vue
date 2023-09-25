@@ -21,7 +21,6 @@
 
                 <a-table-column title="操作">
                     <template #cell="{ record }">
-                        <a-button @click="handlePreviewBlog(record)" v-if="record.isPreviewShow === '1'">查看详情</a-button>
                         <a-button style="margin-left: 5px;" @click="handleEditBlog(record)" type="primary">编辑</a-button>
                         <a-popconfirm content="确定要删除吗？" position="top" @ok="handleDeleteBlog(record)">
                             <a-button style="margin-left: 5px;" status="danger">删除</a-button>
@@ -35,6 +34,7 @@
                                 对外关闭
                             </template>
                         </a-switch>
+                        <a-button @click="handlePreviewBlog(record)" v-if="record.isPreviewShow === '1'">查看详情</a-button>
                     </template>
                 </a-table-column>
             </template>

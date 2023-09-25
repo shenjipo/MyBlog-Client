@@ -4,10 +4,11 @@
             管理后台登录
             <a-form ref="formRef" :model="form" style="margin-top: 20px;">
                 <a-form-item field="account" tooltip="请输入账号" label="账号" :rules="[FormRules.Required()]">
-                    <a-input v-model="form.account" placeholder="请输入账号" />
+                    <a-input v-model="form.account" placeholder="请输入账号" @press-enter="handleFocus" />
                 </a-form-item>
                 <a-form-item field="password" tooltip="请输入密码" label="密码" :rules="[FormRules.Required()]">
-                    <a-input v-model="form.password" placeholder="请输入密码" />
+                    <a-input-password ref="inputRef" v-model="form.password" placeholder="请输入密码"
+                        @press-enter="handleSubmit" />
                 </a-form-item>
 
                 <a-form-item>
@@ -27,11 +28,15 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 
 const formRef: any = ref(null)
+const inputRef: any = ref(null)
 const form: any = reactive({
     account: '',
     password: '',
 });
-
+const handleFocus = () => {
+    console.log(666)
+    inputRef.value.focus()
+}
 const handleSubmit = () => {
 
     formRef.value.validate((err: any) => {

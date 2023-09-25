@@ -1,6 +1,7 @@
-.arco-btn{
+.arco-btn {
     border-radius: 20px;
 }
-.markdown-body{
-    z-index: 500;
+// 全局强行修改组件样式
+.markdown-body {
+    z-index: 500 !important;
 }

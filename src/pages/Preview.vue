@@ -9,6 +9,7 @@
                 <div class="blog" v-for="blog in blogList" :key="blog.id" @click="handleBlogDetail(blog)"
                     style="cursor: pointer;">
                     {{ blog.title }} -- {{ Utils.formatDate(blog.createTime) }}
+
                 </div>
             </div>
         </div>
@@ -74,7 +75,7 @@ const handleBlogDetail = (blog: { id: string, title: string, createTime: string 
     .box-right {
         width: 300px;
         position: relative;
-
+        
         &::before {
             position: absolute;
             content: '';
@@ -87,16 +88,24 @@ const handleBlogDetail = (blog: { id: string, title: string, createTime: string 
 
         padding: 20px;
 
-        .blog {
-            margin-top: 10px;
-            background-color: $gray-3;
-            border-radius: 5px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: $blue-6;
+        .blog-list {
+            max-height: calc(100vh - 55px);
+            overflow-x: hidden;
+            overflow-y: auto;
+            .blog {
+                margin-top: 10px;
+                background-color: $gray-3;
+                border-radius: 5px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $blue-6;
+                padding: 10px;
+
+            }
         }
+
     }
 }
 </style>

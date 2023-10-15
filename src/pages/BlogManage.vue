@@ -42,7 +42,7 @@
         </a-table>
     </div>
     <div class="box-bottom">
-        <a-pagination :total="tableData.length" />
+        <a-pagination :total="page.total" @change="handlePageChange" @page-size-change="handlePageSizeChange" />
     </div>
 </template>
 
@@ -60,11 +60,29 @@ onMounted(() => {
 })
 
 const tableData = ref<Array<Blog>>([]);
-
+let allTableData: Array<Blog> = []
+const page = ref<{
+    currentPage: number,
+    pageSize: number
+    total: number
+}>({
+    currentPage: 0,
+    pageSize: 10,
+    total: 0
+})
 
 const getBlogList = () => {
     ArticleManageApi.queryBlogList().then(res => {
-        tableData.value = res
+        if (Array.isArray(res)) {
+            page.value.total = res.length
+            allTableData = res.reverse()
+            tableData.value = allTableData.slice(page.value.currentPage * page.value.pageSize, page.value.currentPage * page.value.pageSize + page.value.pageSize)
+        } else {
+            page.value.total = 0
+            allTableData = []
+            tableData.value = []
+        }
+
 
     }).catch(err => {
         console.log(err)
@@ -99,6 +117,13 @@ const handleShowChange = (params: Blog) => {
     }).catch(err => {
         Message.error(err.message || '更新失败!')
     })
+}
+const handlePageChange = (current: number) => {
+    console.log(current)
+    tableData.value = allTableData.slice((current - 1) * page.value.pageSize, (current - 1) * page.value.pageSize + page.value.pageSize)
+}
+const handlePageSizeChange = (pageSize: number) => {
+    tableData.value = allTableData.slice(page.value.currentPage * pageSize, page.value.currentPage * pageSize + pageSize)
 }
 </script>
 

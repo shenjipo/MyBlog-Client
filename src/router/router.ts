@@ -24,6 +24,7 @@ let routes: Array<any> = [
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
+   
 });
 
 export { router };

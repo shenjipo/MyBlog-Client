@@ -1,9 +1,10 @@
 <template>
     <div class="main-page">
         <div class="page-menu">
-            <div class="menu-title">xxx的博客</div>
-            <div class="menu-item" v-for="item in menuList" :key="item.id" @click="handleMenuClick(item.href)">{{
-                item.name }}</div>
+            <div class="menu-title">功能导航</div>
+            <div class="menu-item" v-for="item in menuList" :key="item.id" @click="handleMenuClick(item.href)">
+                <a-tag color="green">{{ item.name }}</a-tag>
+            </div>
         </div>
         <div class="page-content">
             <router-view></router-view>
@@ -41,7 +42,7 @@ const handleMenuClick = (href: string) => {
         width: 160px;
         height: 100vh;
         background-color: $blue-1;
-        
+
         .menu-title {
             display: flex;
             justify-content: center;

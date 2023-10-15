@@ -1,8 +1,12 @@
 <template>
     <div class="box">
-        <a-tag class="box-title" color="arcoblue">{{ blog.title }}</a-tag>
+        <div class="box-head">
+            <div class="box-title" color="arcoblue">{{ blog.title }}</div>
+            <a-switch v-model="isShowNav" checked-text="打开导航栏" unchecked-text="关闭导航栏" @change="handleChange"></a-switch>
+        </div>
+
         <mavon-editor class="box-editor" ref="mdRef" v-model="blog.content" :editable="false" :toolbarsFlag="false"
-            defaultOpen="preview" :subfield="false" />
+            defaultOpen="preview" :subfield="false" :navigation="isShowNav" />
     </div>
 </template>
 
@@ -13,7 +17,8 @@ import { onMounted, ref, watch } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { useRoute } from 'vue-router'
 
-
+const mdRef = ref<any>(null)
+const isShowNav = ref<boolean>(true)
 const route = useRoute()
 const blog = ref<Blog>({
     content: '',
@@ -40,6 +45,11 @@ const getBlogDetail = () => {
 watch(() => route.params.id, (nVal, oVal) => {
     getBlogDetail()
 })
+const handleChange = (val: boolean) => {
+    console.log(mdRef)
+    mdRef.value.toolbar_right_click('navigation')
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -55,9 +65,24 @@ watch(() => route.params.id, (nVal, oVal) => {
     overflow-y: auto;
     flex-direction: column;
 
-    .box-title {
-        margin-left: 50px;
+    .box-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100vw - 400px);
+
+        .box-title {
+            margin-left: 50px;
+            font-size: 24px;
+            background-color: $blue-1;
+            color: $blue-6;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .box-setting {}
     }
+
 
     .markdown-body {
         margin: 20px 0 0 50px;

@@ -2,18 +2,20 @@
     <div class="box">
         <div class="box-head">
             <div class="box-title" color="arcoblue">{{ blog.title }}</div>
+            <a-button type="secondary" style="margin-right: 20px;" @click="handleExportMd">导出为md</a-button>
+            <a-button type="secondary" style="margin-right: 20px;" @click="handleExportImage">导出为图片</a-button>
             <a-switch v-model="isShowNav" checked-text="打开导航栏" unchecked-text="关闭导航栏" @change="handleChange"></a-switch>
         </div>
 
         <mavon-editor class="box-editor" ref="mdRef" v-model="blog.content" :editable="false" :toolbarsFlag="false"
-            defaultOpen="preview" :subfield="false" :navigation="isShowNav" />
+            defaultOpen="preview" :subfield="false" :navigation="isShowNav" @navigationToggle="handleNavToggle" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { ArticleManageApi, Blog } from '../api/ArticleManageApi'
 import { onMounted, ref, watch } from 'vue';
-
+import { Utils } from '../utils/Utils'
 import { Message } from '@arco-design/web-vue';
 import { useRoute } from 'vue-router'
 
@@ -45,10 +47,20 @@ const getBlogDetail = () => {
 watch(() => route.params.id, (nVal, oVal) => {
     getBlogDetail()
 })
-const handleChange = (val: boolean) => {
-    console.log(mdRef)
+const handleChange = (val: boolean | number | string) => {
+
     mdRef.value.toolbar_right_click('navigation')
 
+}
+const handleNavToggle = (isShow: boolean, value: string) => {
+    isShowNav.value = isShow
+}
+const handleExportImage = () => {
+    const targetDom: any = document.getElementsByClassName('v-show-content')[0]
+    Utils.exportImage(targetDom, blog.value.title)
+}
+const handleExportMd = () => {
+    Utils.exportMd(blog.value.content, blog.value.title)
 }
 </script>
 

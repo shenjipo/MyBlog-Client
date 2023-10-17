@@ -17,6 +17,8 @@
 
             <div class="box-right">
                 <a-button type="primary" style="margin-right: 20px;" @click="handleSave">修改保存</a-button>
+                <a-button type="secondary" style="margin-right: 20px;" @click="handleExportMd">导出为md</a-button>
+                <a-button type="secondary" style="margin-right: 20px;" @click="handleExportImage">导出为图片</a-button>
                 <a-popconfirm position="bottom" content="确定退出吗? 内容可能未保存！" @ok="handleReturn" popup-container="body">
                     <a-button>返回</a-button>
                 </a-popconfirm>
@@ -35,6 +37,7 @@ import { ArticleManageApi, Blog } from '../api/ArticleManageApi'
 import { ref, onMounted } from 'Vue'
 import { Message } from '@arco-design/web-vue';
 import { useRoute, useRouter } from "vue-router"
+import { Utils } from '../utils/Utils'
 const route = useRoute(); // 第一步
 const router = useRouter()
 
@@ -93,6 +96,13 @@ const handleImgAdd = (pos: any, file: any) => {
 }
 const handleReturn = () => {
     router.push('/MainPage/BlogManage')
+}
+const handleExportImage = () => {
+    const targetDom: any = document.getElementsByClassName('v-show-content')[0]
+    Utils.exportImage(targetDom, blog.value.title)
+}
+const handleExportMd = () => {
+    Utils.exportMd(blog.value.content, blog.value.title)
 }
 </script>
 

@@ -27,7 +27,14 @@ export class Utils {
 
         html2canvas(copyDom, {
             useCORS: true,
-            allowTaint: true
+            allowTaint: true,
+            // onclone: (canvas) => {
+            //     return new Promise((resolve: any, reject: any) => {
+            //         setTimeout(() => {
+            //             resolve()
+            //         }, 2000)
+            //     })
+            // }
         }).then((canvas: any) => {
             let imgUrl = canvas.toDataURL("image/png");
             let a = document.createElement("a");

@@ -58,6 +58,8 @@ onMounted(() => {
     blog.value.id = route.params.id as string
     ArticleManageApi.queryBlogById(blog.value.id).then(res => {
         blog.value = res
+        blog.value.content = blog.value.content.replaceAll('8.130.116.190', '101.133.143.249')
+        
     }).catch(err => {
         Message.error(err.message || '查询失败！')
     })

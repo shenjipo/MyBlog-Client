@@ -19,7 +19,10 @@ interface UploadImg {
 export class ArticleManageApi {
     // 查询所有文章
     static queryBlogList(): Promise<Array<Blog>> {
-        return http.post('/queryBlogList').then(res => {
+        return http.post('/queryBlogList', {
+            time: new Date().getTime()
+
+        }).then(res => {
             return res
         }).catch((err: any) => {
             return Promise.reject(err)

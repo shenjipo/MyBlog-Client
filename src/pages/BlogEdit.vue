@@ -70,7 +70,7 @@ const handleSave = () => {
 }
 const handleImgAdd = (pos: any, file: any) => {
     ArticleManageApi.uploadImg(file).then(res => {
-
+    
         mdRef.value.$img2Url(pos, process.env.VUE_APP_BASE_API + `/getImage/${res.url}`)
 
     }).catch(err => {

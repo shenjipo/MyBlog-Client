@@ -119,7 +119,7 @@ const handleShowChange = (params: Blog) => {
     })
 }
 const handlePageChange = (current: number) => {
-    console.log(current)
+  
     tableData.value = allTableData.slice((current - 1) * page.value.pageSize, (current - 1) * page.value.pageSize + page.value.pageSize)
 }
 const handlePageSizeChange = (pageSize: number) => {

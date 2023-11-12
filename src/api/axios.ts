@@ -40,10 +40,7 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 /* 响应拦截器 */
 service.interceptors.response.use((response: AxiosResponse) => {
     const { code, msg, data } = response.data
-    const customData = response.config.data
-    if (customData) {
-        console.log(JSON.parse(customData))
-    }
+   
 
     // 根据自定义错误码判断请求是否成功
     if (code === 200) {

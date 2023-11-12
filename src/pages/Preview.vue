@@ -96,7 +96,6 @@ const handleBlogDetail = (blog: { id: string, title: string, createTime: string 
                 margin-top: 10px;
                 background-color: $gray-3;
                 border-radius: 5px;
-                height: 30px;
                 display: flex;
                 justify-content: center;
                 align-items: center;

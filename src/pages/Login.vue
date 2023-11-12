@@ -34,7 +34,7 @@ const form: any = reactive({
     password: '',
 });
 const handleFocus = () => {
-    console.log(666)
+  
     inputRef.value.focus()
 }
 const handleSubmit = () => {

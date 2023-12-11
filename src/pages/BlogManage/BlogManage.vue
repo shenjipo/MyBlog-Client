@@ -48,11 +48,11 @@
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue'
-import { ArticleManageApi } from '../api/ArticleManageApi'
+import { ArticleManageApi } from '../../api/ArticleManageApi'
 import { useRouter } from 'vue-router'
-import { Blog } from '../api/ArticleManageApi'
+import { Blog } from '../../api/ArticleManageApi'
 import { Message } from '@arco-design/web-vue';
-import { Utils } from '../utils/Utils'
+import { Utils } from '../../utils/Utils'
 const router = useRouter()
 
 onMounted(() => {

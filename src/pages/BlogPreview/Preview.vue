@@ -60,7 +60,7 @@ const handleBlogDetail = (blog: { id: string, title: string, createTime: string 
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/var.scss";
+@import "@/styles/var.scss";
 
 .box {
     width: 100%;

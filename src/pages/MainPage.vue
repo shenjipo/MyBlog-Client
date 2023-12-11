@@ -17,7 +17,7 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const menuList = [
     { id: 1, name: '博客列表', href: '/MainPage/BlogManage' },
-    { id: 2, name: '账号设置', href: '/MainPage/Settings' },
+    { id: 2, name: '账号设置', href: '/MainPage/AccountManage' },
 ]
 const handleMenuClick = (href: string) => {
     router.push(href)

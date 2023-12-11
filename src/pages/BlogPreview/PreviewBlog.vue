@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { ArticleManageApi, Blog } from '../api/ArticleManageApi'
+import { ArticleManageApi, Blog } from '@/api/ArticleManageApi'
 import { onMounted, ref, watch } from 'vue';
-import { Utils } from '../utils/Utils'
+import { Utils } from '@/utils/Utils'
 import { Message } from '@arco-design/web-vue';
 import { useRoute } from 'vue-router'
 
@@ -67,7 +67,7 @@ const handleExportMd = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/var.scss";
+@import "@/styles/var.scss";
 
 .box {
     width: 100%;
@@ -94,7 +94,7 @@ const handleExportMd = () => {
             border-radius: 10px;
         }
 
-        .box-setting {}
+      
     }
 
 

@@ -6,16 +6,16 @@ let routes: Array<any> = [
     {
         name: 'MainPage', path: "/MainPage", component: () => import("../pages/MainPage.vue"),
         children: [
-            { name: 'BlogManage', path: "/MainPage/BlogManage", component: () => import("../pages/BlogManage.vue") },
-            { name: 'Settings', path: "/MainPage/Settings", component: () => import("../pages/Settings.vue") },
-            { name: 'BlogEdit', path: "/MainPage/BlogEdit", component: () => import("../pages/BlogEdit.vue") },
-            { name: 'BlogUpdate', path: "/MainPage/BlogUpdate/:id", component: () => import("../pages/BlogUpdate.vue") },
+            { name: 'BlogManage', path: "/MainPage/BlogManage", component: () => import("../pages/BlogManage/BlogManage.vue") },
+            { name: 'AccountManage', path: "/MainPage/AccountManage", component: () => import("../pages/Account/AccountManage/AccountManage.vue") },
+            { name: 'BlogEdit', path: "/MainPage/BlogEdit", component: () => import("../pages/BlogManage/BlogEdit.vue") },
+            { name: 'BlogUpdate', path: "/MainPage/BlogUpdate/:id", component: () => import("../pages/BlogManage/BlogUpdate.vue") },
         ]
     },
     {
-        name: 'Preview', path: "/Preview", component: () => import("../pages/Preview.vue"),
+        name: 'Preview', path: "/Preview", component: () => import("../pages/BlogPreview/Preview.vue"),
         children: [
-            { name: 'PreviewBlog', path: '/Preview/PreviewBlog/:id', component: () => import("../pages/PreviewBlog.vue"), }
+            { name: 'PreviewBlog', path: '/Preview/PreviewBlog/:id', component: () => import("../pages/BlogPreview/PreviewBlog.vue"), }
         ]
     }
 
@@ -24,7 +24,7 @@ let routes: Array<any> = [
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
-   
+
 });
 
 export { router };

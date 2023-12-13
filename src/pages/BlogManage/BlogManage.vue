@@ -53,6 +53,7 @@ import { useRouter } from 'vue-router'
 import { Blog } from '../../api/ArticleManageApi'
 import { Message } from '@arco-design/web-vue';
 import { Utils } from '../../utils/Utils'
+import { Page } from '@/model/Component'
 const router = useRouter()
 
 onMounted(() => {
@@ -61,11 +62,7 @@ onMounted(() => {
 
 const tableData = ref<Array<Blog>>([]);
 let allTableData: Array<Blog> = []
-const page = ref<{
-    currentPage: number,
-    pageSize: number
-    total: number
-}>({
+const page = ref<Page>({
     currentPage: 0,
     pageSize: 10,
     total: 0
@@ -119,7 +116,7 @@ const handleShowChange = (params: Blog) => {
     })
 }
 const handlePageChange = (current: number) => {
-  
+
     tableData.value = allTableData.slice((current - 1) * page.value.pageSize, (current - 1) * page.value.pageSize + page.value.pageSize)
 }
 const handlePageSizeChange = (pageSize: number) => {

@@ -25,8 +25,11 @@ import { FormRules } from '@/utils/ComponentUtils'
 import { Api } from '@/api/login';
 import { Message } from '@arco-design/web-vue';
 import { useRouter, useRoute } from 'vue-router'
-const router = useRouter()
+import { useStore } from '@/store/index'
 
+
+const router = useRouter()
+const store = useStore()
 const formRef: any = ref(null)
 const inputRef: any = ref(null)
 const form: any = reactive({
@@ -34,7 +37,7 @@ const form: any = reactive({
     password: '',
 });
 const handleFocus = () => {
-  
+
     inputRef.value.focus()
 }
 const handleSubmit = () => {
@@ -47,7 +50,7 @@ const handleSubmit = () => {
                 password: form.password,
             }
             Api.login(params).then(res => {
-
+                store.userStore.setUser(res.user)
                 localStorage.setItem('token', res.token)
                 router.push('/MainPage/BlogManage')
             }).catch(err => {

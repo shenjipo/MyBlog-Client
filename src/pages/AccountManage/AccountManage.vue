@@ -49,7 +49,9 @@ import { Account } from '@/model/Account.ts'
 import { AccountManageApi } from '@/api/AccountManageApi'
 import { Page } from '@/model/Component'
 import { Message } from '@arco-design/web-vue';
+import { useStore } from '@/store/index'
 
+const store = useStore()
 // 数据
 const router = useRouter()
 const tableData = ref<Array<Account>>([{
@@ -68,6 +70,7 @@ const page = ref<Page>({
 })
 // 生命周期
 onMounted(() => {
+    console.log(store.userStore.user)
     queryAccountList()
 })
 // 方法

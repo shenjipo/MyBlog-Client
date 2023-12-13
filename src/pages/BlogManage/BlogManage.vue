@@ -54,8 +54,11 @@ import { Blog } from '../../api/ArticleManageApi'
 import { Message } from '@arco-design/web-vue';
 import { Utils } from '../../utils/Utils'
 import { Page } from '@/model/Component'
-const router = useRouter()
+import { useStore } from '@/store/index'
+import { storeToRefs } from 'pinia';
 
+const router = useRouter()
+const store = useStore()
 onMounted(() => {
     getBlogList()
 })
@@ -69,6 +72,7 @@ const page = ref<Page>({
 })
 
 const getBlogList = () => {
+ 
     ArticleManageApi.queryBlogList().then(res => {
         if (Array.isArray(res)) {
             page.value.total = res.length

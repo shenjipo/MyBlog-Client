@@ -1,5 +1,7 @@
 import { http } from "./axios"
 import { Response } from './login'
+import { useStore } from '@/store/index'
+const store = useStore()
 /* 登录接口参数类型 */
 export interface Blog {
     content: string,
@@ -20,8 +22,7 @@ export class ArticleManageApi {
     // 查询所有文章
     static queryBlogList(): Promise<Array<Blog>> {
         return http.post('/queryBlogList', {
-            time: new Date().getTime()
-
+            uuid: store.userStore.user.uuid
         }).then(res => {
             return res
         }).catch((err: any) => {
@@ -90,7 +91,8 @@ export class ArticleManageApi {
         })
     }
     // 新建博客
-    static saveBlog(params: { content: string, title: string, author: string, createTime: string, isPreviewShow: string }): Promise<{ id: string }> {
+    static saveBlog(params: { content: string, title: string, author: string, createTime: string, isPreviewShow: string, uuid?: string }): Promise<{ id: string }> {
+        params.uuid = store.userStore.user.uuid
         return http.post('/saveBlog', params).then(res => {
             return res
         }).catch((err: any) => {

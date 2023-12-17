@@ -70,12 +70,17 @@ const page = ref<Page>({
 })
 // 生命周期
 onMounted(() => {
-  
+
     queryAccountList()
 })
 // 方法
 const handleAddAccount = () => {
-    router.push('/MainPage/AccountEdit')
+    router.push({
+        name: 'AccountEdit',
+        params: {
+            account: 'noaccount'
+        }
+    })
 }
 
 const queryAccountList = () => {

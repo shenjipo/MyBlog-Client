@@ -62,7 +62,7 @@ let isEdit = false
 onMounted(() => {
     let account: any = route.params.account as string
 
-    if (account) {
+    if (account !== 'noaccount') {
         isEdit = true
         account = JSON.parse(account)
         form.value.uuid = account.uuid

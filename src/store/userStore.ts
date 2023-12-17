@@ -14,12 +14,20 @@ export const useUserStore = defineStore('user', () => {
     })
 
     function setUser(par: Account) {
+        localStorage.setItem('user', JSON.stringify(par))
         user.value = par
     }
+    const getUser = computed(() => {
+        if (!user.value.uuid) {
+            user.value = JSON.parse(localStorage.getItem('user') || '')
+        }
+        return user.value
 
+    })
 
     return {
         user,
-        setUser
+        setUser,
+        getUser
     }
 })

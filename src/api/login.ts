@@ -9,11 +9,13 @@ export interface Response<T> {
 
 interface LoginData {
     token: string,
-    user: Account
+    user: any
 }
 export class Api {
     static login(params: any): Promise<LoginData> {
         return http.post<LoginData>('/login', params).then(res => {
+       
+            res.user.username = res.user.account
             return res
         }).catch((err: any) => {
 

@@ -70,7 +70,7 @@ const page = ref<Page>({
 })
 // 生命周期
 onMounted(() => {
-    console.log(store.userStore.user)
+  
     queryAccountList()
 })
 // 方法

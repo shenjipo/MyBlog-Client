@@ -51,6 +51,7 @@ const handleSubmit = () => {
             }
             Api.login(params).then(res => {
                 store.userStore.setUser(res.user)
+            
                 localStorage.setItem('token', res.token)
                 router.push('/MainPage/BlogManage')
             }).catch(err => {

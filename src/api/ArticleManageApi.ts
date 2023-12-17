@@ -21,6 +21,7 @@ interface UploadImg {
 export class ArticleManageApi {
     // 查询所有文章
     static queryBlogList(): Promise<Array<Blog>> {
+   
         return http.post('/queryBlogList', {
             uuid: store.userStore.user.uuid
         }).then(res => {

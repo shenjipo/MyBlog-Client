@@ -8,7 +8,9 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import './assets/index.scss'
 import { createPinia } from 'pinia'
+import dotenv from 'dotenv';
 
+dotenv.config();
 const pinia = createPinia()
 const app: any = createApp(App)
 app.use(ArcoVue)

@@ -5,4 +5,7 @@ declare module '*.vue' {
     export default component
 }
 
+declare module 'uuid' {
+    export function v4(): number
+}
 

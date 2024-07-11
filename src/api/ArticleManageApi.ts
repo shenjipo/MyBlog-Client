@@ -25,6 +25,7 @@ export class ArticleManageApi {
         return http.post('/queryBlogList', {
             uuid: store.userStore.user.uuid
         }).then(res => {
+            
             return res
         }).catch((err: any) => {
             return Promise.reject(err)

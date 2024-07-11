@@ -72,11 +72,17 @@ const page = ref<Page>({
 })
 
 const getBlogList = () => {
- 
+
     ArticleManageApi.queryBlogList().then(res => {
         if (Array.isArray(res)) {
             page.value.total = res.length
-            allTableData = res.reverse()
+            allTableData = res.sort((a, b) => {
+                if (!a.createTime || !b.createTime) {
+                    return 1
+                }
+
+                return parseInt(b.createTime) - parseInt(a.createTime)
+            })
             tableData.value = allTableData.slice(page.value.currentPage * page.value.pageSize, page.value.currentPage * page.value.pageSize + page.value.pageSize)
         } else {
             page.value.total = 0
@@ -94,7 +100,8 @@ const handleCreateBlog = (id?: any) => {
     router.push('/MainPage/BlogEdit')
 }
 const handlePreviewBlog = (blog: Blog) => {
-    router.push(`/Preview/PreviewBlog/${blog.id}`)
+    window.open(`http://${location.host}/Blog/#/Preview/PreviewBlog/${blog.id}`)
+    // router.push(`/Preview/PreviewBlog/${blog.id}`)
 }
 const handleEditBlog = (params: Blog) => {
 

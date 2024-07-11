@@ -34,6 +34,13 @@ const index = ref<number>(1)
 const getList = () => {
     ArticleManageApi.queryBlogListExceptContent().then(res => {
         blogList.value = res
+        blogList.value = blogList.value.sort((a, b) => {
+            if (!a.createTime || !b.createTime) {
+                return 1
+            }
+
+            return parseInt(b.createTime) - parseInt(a.createTime)
+        })
         originBlogList = res
     }).catch(err => {
         Message.error(err?.message || '查询博客列表失败!')
@@ -45,7 +52,7 @@ const handleInput = (val: string) => {
         blogList.value = originBlogList
     } else {
         blogList.value = originBlogList.filter((blog: Blog) => {
-            return blog.title.indexOf(val) > -1
+            return blog.title.toLowerCase().indexOf(val.toLowerCase()) > -1
         })
     }
 }
@@ -75,7 +82,7 @@ const handleBlogDetail = (blog: { id: string, title: string, createTime: string 
     .box-right {
         width: 300px;
         position: relative;
-        
+
         &::before {
             position: absolute;
             content: '';
@@ -92,6 +99,7 @@ const handleBlogDetail = (blog: { id: string, title: string, createTime: string 
             max-height: calc(100vh - 55px);
             overflow-x: hidden;
             overflow-y: auto;
+
             .blog {
                 margin-top: 10px;
                 background-color: $gray-3;

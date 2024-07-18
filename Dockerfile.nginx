@@ -1,0 +1,11 @@
+# 使用官方nginx镜像作为基础镜像  
+FROM nginx:alpine  
+    
+# 暴露80端口  
+EXPOSE 80  
+    
+# 默认情况下，nginx的配置文件已经足够用于静态文件服务  
+# 因此，这里不需要显式地复制配置文件，除非你有特殊需求  
+  
+# 启动nginx  
+CMD ["nginx", "-g", "daemon off;"]
